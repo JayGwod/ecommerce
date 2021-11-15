@@ -1,4 +1,5 @@
 import pytest
+from django.db import IntegrityError
 from ecommerce.inventory import models
 
 
@@ -97,8 +98,7 @@ def test_inventory_db_product_uniqueness_integrity(db, product_factory):
 def test_inventory_db_product_insert_data(
     db, product_factory, category_factory
 ):
-    new_category = category_factory.create()
-    new_product = product_factory.create(category=(1, 36))
+    new_product = product_factory.create(category=(1, 2, 3, 4, 5))
     result_product_category = new_product.category.all().count()
     assert "web_id_" in new_product.web_id
-    assert result_product_category == 2
+    assert result_product_category == 5
