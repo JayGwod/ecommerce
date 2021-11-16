@@ -38,5 +38,28 @@ class ProductFactory(factory.django.DjangoModelFactory):
                 self.category.add(cat)
 
 
+class ProductInventoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductInventory
+
+    sku = factory.Sequence(lambda n: "sku_%d" % n)
+    upc = factory.Sequence(lambda n: "upc_%d" % n)
+    product_type = factory.SubFactory(ProductTypeFactory)
+    name = fake.lexify(text="prod_name_??????")
+    description = fake.text()
+    is_active = True
+    created_at = "2021-09-04 22:14:18.279092"
+    updated_at = "2021-09-04 22:14:18.279092"
+
+    @factory.post_generation
+    def category(self, create, extracted, **kwargs):
+        if not create or not extracted:
+            return
+
+        if extracted:
+            for cat in extracted:
+                self.category.add(cat)
+
+
 register(CategoryFactory)
 register(ProductFactory)
