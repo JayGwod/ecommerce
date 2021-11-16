@@ -157,7 +157,7 @@ def test_inventory_db_product_inventory_dataset(
     created_at,
     updated_at,
 ):
-    result = models.ProductInventory.onjects.get(id=id)
+    result = models.ProductInventory.objects.get(id=id)
     result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
     result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
     assert result.sku == sku
@@ -194,3 +194,29 @@ def test_inventory_db_product_inventory_insert_data(
     assert new_product.store_price == 92.00
     assert new_product.sale_price == 46.00
     assert new_product.weight == 987
+
+
+def test_inventory_db_producttype_inventory_insert_data(
+    db, product_type_factory
+):
+    new_type = product_type_factory.create(name="demp_type")
+    assert new_type.name == "demp_type"
+
+
+def test_inventory_db_producttype_uniqueness_integrity(
+    db, product_type_factory
+):
+    product_type_factory.create(name="not_unique")
+    with pytest.raises(IntegrityError):
+        product_type_factory.create(name="not_unique")
+
+
+def test_inventory_db_brand_insert_data(db, brand_factory):
+    new_type = brand_factory.create(name="demp_brand")
+    assert new_type.name == "demp_brand"
+
+
+def test_inventory_db_brand_uniqueness_integrity(db, brand_factory):
+    brand_factory.create(name="not_unique")
+    with pytest.raises(IntegrityError):
+        brand_factory.create(name="not_unique")

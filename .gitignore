@@ -1,3 +1,4 @@
 *.pyc
 *.exe
 venv
+db.sqlite3
