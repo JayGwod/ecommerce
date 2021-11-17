@@ -87,6 +87,14 @@ class StockFactory(factory.django.DjangoModelFactory):
     units_sold = 100
 
 
+class ProductAttributeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductAttribute
+
+    name = "attribute_name_0"
+    description = "description_0"
+
+
 register(CategoryFactory)
 register(ProductFactory)
 register(ProductFactory)
@@ -95,3 +103,4 @@ register(BrandFactory)
 register(ProductInventoryFactory)
 register(MediaFactory)
 register(StockFactory)
+register(ProductAttributeFactory)
