@@ -91,8 +91,16 @@ class ProductAttributeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ProductAttribute
 
-    name = "attribute_name_0"
-    description = "description_0"
+    name = factory.Sequence(lambda n: "attribute_name_%d" % n)
+    description = factory.Sequence(lambda n: "description_%d" % n)
+
+
+class ProductAttributeValueFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductAttributeValue
+
+    product_attribute = factory.SubFactory(ProductAttributeFactory)
+    attribute_value = fake.lexify(text="attribute_value_??????")
 
 
 register(CategoryFactory)
@@ -104,3 +112,4 @@ register(ProductInventoryFactory)
 register(MediaFactory)
 register(StockFactory)
 register(ProductAttributeFactory)
+register(ProductAttributeValueFactory)
