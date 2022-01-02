@@ -1,19 +1,21 @@
-from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
 from ecommerce.drf import views
+from ecommerce.search.views import SearchProductInventory
 
 router = routers.DefaultRouter()
-router.register(r"api", views.AllProductsViewset, basename="allproducts")
 router.register(
-    r"product/(?P<slug>[^/.]+)",
-    views.ProductInventoryViewset,
-    basename="products",
+    r"category/(?P<slug>[^/.]+)",
+    views.ProductByCategory,
+    basename="productbycategory",
 )
+# router.register(r"item/(?P<id>[^/.]+)", views.SingleProductViewSet, basename="items")
 
+
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("demo/", include("ecommerce.demo.urls", namespace="demo")),
     path("", include(router.urls)),
+    path("search/<str:query>/", SearchProductInventory.as_view()),
 ]
